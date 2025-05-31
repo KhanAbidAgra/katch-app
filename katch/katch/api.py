@@ -1,13 +1,22 @@
-
-# your_app/api.py
+from frappe import _
+import frappe
+from frappe.utils import msgprint
+from erpnext.accounts.party import get_party_details, set_address_details
 
 @frappe.whitelist()
-def custom_set_company_address(docname):
-    # Your own logic to fetch address for KSA
-    # Don't include gstin
-    doc = frappe.get_doc("Sales Invoice", docname)
-    if not doc.company_address:
-        address = frappe.get_all("Address", filters={"company": doc.company}, fields=["name"])
-        if address:
-            doc.company_address = address[0].name
-            doc.save()
+def custom_get_party_details_api(party_type, party, doctype, company):
+    party_details = get_party_details(
+        party=party,
+        party_type=party_type,
+        company=company,
+        doctype=doctype,
+    )
+
+    party_details = set_address_details(
+        party_details,
+        party_type,
+        party,
+        doctype,
+        company
+    )
+    return party_details

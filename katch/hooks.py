@@ -178,9 +178,16 @@ app_license = "mit"
 # 	"frappe.desk.doctype.event.event.get_events": "katch.event.get_events"
 # }
 override_whitelisted_methods = {
-    "erpnext.selling.doctype.sales_invoice.sales_invoice.set_default_company_address": "katch.api.custom_set_company_address"
+    "erpnext.accounts.party.get_party_details": "katch.katch.api.custom_get_party_details_api"
 }
 
+doc_events = {
+    "Address": {
+        "validate": "katch.katch.api.validate_address"
+    }
+}
+
+app_include_js = "/assets/katch/public/js/salesinvoice.js"
 #
 # each overriding function accepts a `data` argument;
 # generated from the base implementation of the doctype dashboard,
