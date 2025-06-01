@@ -39,7 +39,6 @@ frappe.ui.form.on('Sales Invoice', {
                 },
                 callback: function(r) {
                     if (r.message) {
-                        frappe.msgprint("✅ Company Address Fetched");
                         console.log(r.message);
                         frm.set_value("company_address", r.message.company_address);
                         // You can create a custom read-only field for address display if needed
