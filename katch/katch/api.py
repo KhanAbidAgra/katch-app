@@ -30,3 +30,22 @@ def custom_get_party_details_api(party_type, party, doctype, company):
         party_details.city = address_doc.get("city")
 
     return party_details
+
+
+@frappe.whitelist()
+def custom_get_company_address(company):
+    address = frappe.db.get_all(
+        "Address",
+        filters={
+            "link_doctype": "Company",
+            "link_name": company,
+            "is_primary_address": 1
+        },
+        fields=["name", "address_line1", "address_line2", "city", "state", "pincode", "country", "gstin"]
+    )
+
+    if address:
+        return address[0]
+    else:
+        return {}
+

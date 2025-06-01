@@ -1,6 +1,5 @@
 frappe.ui.form.on('Sales Invoice', {
     refresh: function (frm) {
-        frappe.msgprint("Custom party details loaded");
         if (frm.doc.customer && frm.doc.company) {
             frappe.call({
                 method: "katch.katch.api.custom_get_party_details_api",
@@ -20,7 +19,6 @@ frappe.ui.form.on('Sales Invoice', {
                             frm.set_value("currency", r.message.currency);
                         }
 
-                        // Optional address field updates
                         if (r.message.address_display) {
                             frm.set_value("customer_address", r.message.address_display);
                         }
@@ -30,3 +28,27 @@ frappe.ui.form.on('Sales Invoice', {
         }
     }
 });
+
+frappe.ui.form.on('Sales Invoice', {
+    refresh(frm) {
+        if (frm.doc.company) {
+            frappe.call({
+                method: "katch.katch.api.custom_get_company_address",
+                args: {
+                    company: frm.doc.company
+                },
+                callback: function(r) {
+                    if (r.message) {
+                        frappe.msgprint("✅ Company Address Fetched");
+                        console.log(r.message);
+                        frm.set_value("company_address", r.message.company_address);
+                        // You can create a custom read-only field for address display if needed
+                        // frm.set_value("company_address_display", r.message.address_display);
+                        frm.refresh_field("company_address");
+                    }
+                }
+            });
+        }
+    }
+});
+
