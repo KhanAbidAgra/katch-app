@@ -43,7 +43,6 @@ app_license = "mit"
 # page_js = {"page" : "public/js/file.js"}
 
 # include js in doctype views
-doctype_js = {"Sales Invoice" : "public/js/salesinvoice.js"}
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
@@ -177,15 +176,6 @@ doctype_js = {"Sales Invoice" : "public/js/salesinvoice.js"}
 # override_whitelisted_methods = {
 # 	"frappe.desk.doctype.event.event.get_events": "katch.event.get_events"
 # }
-override_whitelisted_methods = {
-    "erpnext.accounts.party.get_party_details": "katch.katch.api.custom_get_party_details_api"
-}
-
-doc_events = {
-    "Address": {
-        "validate": "katch.katch.api.validate_address"
-    }
-}
 # each overriding function accepts a `data` argument;
 # generated from the base implementation of the doctype dashboard,
 # along with any modifications made in other Frappe apps
